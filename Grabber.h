@@ -1,0 +1,54 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "Components/ActorComponent.h"
+#include "DrawDebugHelpers.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
+#include "Grabber.generated.h"
+
+
+
+
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class BUILDINGESCAPE_API UGrabber : public UActorComponent
+{
+	GENERATED_BODY()
+
+public:	
+	// Sets default values for this component's properties
+	UGrabber();
+
+	// Called when the game starts
+	virtual void BeginPlay() override;
+	
+	// Called every frame
+	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+
+		
+private:
+
+	//Ray-Cast and Grab what's in reach
+	void Grab();
+	//Release what's been grabbed
+	void Release();
+	//Sets PhysicsHandle to Physics Component
+	void SetPhysicsComponent();
+	//Binds 'Grab' keys to InputComponent
+	void SetInputComponent();
+	//Returns hit for first physics body in reach
+	FHitResult GetFirstPhysicsBodyInReach();//TODO Somehow make this a const
+	//Returns Vector pointing to start of player's reach
+	FVector GetReachLineStart();
+	//Returns Vector pointing to end of player's reach
+	FVector GetReachLineEnd();
+
+	//Self Explanatory, Defining stuff
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	UInputComponent* InputComponent = nullptr;
+
+
+	//How far the player can reach in cm
+	float Reach=100.f;
+};
